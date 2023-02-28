@@ -4,7 +4,7 @@ services:
         image: mysql
         container_name: webdb
         environment:
-            MYSQL_ROOT_PASSWORD: MyR00tMySQLPa$$5w
+            MYSQL_ROOT_PASSWORD: MyR00tMySQLPa$$5w0rD
             MYSQL_DATABASE: web_db
             MYSQL_USER: web_user
             MYSQL_PASSWORD: Pa$$5w0rD
@@ -36,7 +36,7 @@ services:
             WORDPRESS_DB_HOST: webdb:3306
             WORDPRESS_DB_USER: web_user
             WORDPRESS_DB_PASSWORD: Pa$$5w0rD
-            WORDPRESS_DB_NAME: upesimts_web_db
+            WORDPRESS_DB_NAME: web_db
         working_dir: /var/www/html
         volumes:
             - ./wordpress_data:/var/www/html
