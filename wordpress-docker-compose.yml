@@ -1,0 +1,47 @@
+version: '3.4'
+services:
+    webdb:
+        image: mysql
+        container_name: webdb
+        environment:
+            MYSQL_ROOT_PASSWORD: MyR00tMySQLPa$$5w
+            MYSQL_DATABASE: web_db
+            MYSQL_USER: web_user
+            MYSQL_PASSWORD: Pa$$5w0rD
+        volumes:
+            - ./db_data:/var/lib/mysql
+        restart: always
+        ports:
+            - "3306:3306"
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        links:
+            - webdb
+        environment:
+            PMA_HOST: webdb
+            PMA_USER: web_user
+            PMA_PASSWORD: Pa$$5w0rD
+            PMA_PORT: 3306
+            PMA_ARBITRARY: 1
+        restart: always
+        ports:
+            - "3307:80"
+    wordpress:
+        depends_on:
+            - webdb
+        links:
+            - webdb
+        image: wordpress:latest
+        environment:
+            WORDPRESS_DB_HOST: webdb:3306
+            WORDPRESS_DB_USER: web_user
+            WORDPRESS_DB_PASSWORD: Pa$$5w0rD
+            WORDPRESS_DB_NAME: upesimts_web_db
+        working_dir: /var/www/html
+        volumes:
+            - ./wordpress_data:/var/www/html
+            #- ./wp-content:/var/www/html/wp-content
+            #- ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+        restart: always
+        ports:
+            - "3308:80"
